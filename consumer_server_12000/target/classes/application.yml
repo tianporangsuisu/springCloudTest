@@ -1,6 +1,10 @@
 spring:
   application:
     name: consumerServer12000
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
 
 server:
   port: 12000
@@ -14,3 +18,29 @@ eureka:
   client:
     service-url:
       defaultZone: http://eurekaServer13000:13000/eureka,http://eurekaServer13001:13001/eureka
+
+
+#provider-server:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+resilience4j:
+  circuitbreaker:
+    instances:
+      backendA:
+        failure-rate-threshold: 30
+        sliding-window-type: time_based
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5000
+        permitted-number-of-calls-in-half-open-state: 3
+      backendB:
+        failure-rate-threshold: 50
+        slow-call-rate-threshold: 30
+        slow-call-duration-threshold: 2000
+        sliding-window-type: time_based
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5000
+        permitted-number-of-calls-in-half-open-state: 3

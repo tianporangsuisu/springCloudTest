@@ -1,6 +1,6 @@
 spring:
   application:
-    name: providerServer11001
+    name: provider-server
 
 server:
   port: 11001
