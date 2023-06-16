@@ -2,6 +2,8 @@ package org.example.controller;
 
 import org.example.model.commonResult;
 import org.example.model.user;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping("/user")
+@RefreshScope
 public class userController {
 
     private ArrayList<user> userList = new ArrayList<>();

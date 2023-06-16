@@ -1,0 +1,42 @@
+server:
+  port: 14000
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://eurekaServer13000:13000/eureka,http://eurekaServer13001:13001/eureka
+
+spring:
+  application:
+      name: gateway-server
+  cloud:
+    gateway:
+      routes:
+        - id: consumerServer12000
+          uri: lb://consumerServer12000
+          predicates:
+            - Path=/cart/**
+
+      globalcors: # 全局的跨域处理
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: # 允许哪些网站的跨域请求
+              - "http://localhost:12000"
+            allowedMethods: # 允许的跨域ajax的请求方式
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: "*" # 允许在请求中携带的头信息
+            allowCredentials: true # 是否允许携带cookie
+            maxAge: 360000 # 这次跨域检测的有效期
+      default-filters:
+        - name: CircuitBreaker
+          args:
+            name: CircuitBreakerA
+            fallbackUri: forward:/error

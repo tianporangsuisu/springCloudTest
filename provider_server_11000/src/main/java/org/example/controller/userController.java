@@ -2,15 +2,19 @@ package org.example.controller;
 
 import org.example.model.commonResult;
 import org.example.model.user;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping("/user")
+@RefreshScope
 public class userController {
 
     private ArrayList<user> userList = new ArrayList<>();
@@ -20,6 +24,7 @@ public class userController {
         userList.forEach(user -> {
             if (Objects.equals(user.getId(), userId)) {
                 userList.remove(user);
+                System.out.println(userList);
             }
         });
     }
@@ -53,7 +58,8 @@ public class userController {
 
     @GetMapping("/getUserById1/{userId}")
     public commonResult<user> getUserById1(@PathVariable Integer userId){
-        return new commonResult(200,"getSuccess11000",new user(userId,"xh",20,"123456"));
+
+        return new commonResult(200, "getSuccess11000", new user(userId, "xh", 20, "123456"));
     }
     @GetMapping("/getUserById2/{userName}")
     public commonResult<user> getUserById2(@PathVariable String userName){
