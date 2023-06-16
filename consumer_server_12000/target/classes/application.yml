@@ -44,3 +44,13 @@ resilience4j:
         automatic-transition-from-open-to-half-open-enabled: true
         wait-duration-in-open-state: 5000
         permitted-number-of-calls-in-half-open-state: 3
+  bulkhead:
+    instances:
+      backendA:
+        max-concurrent-calls: 10
+        max-wait-duration: 20
+  ratelimiter:
+    instances:
+      backendA:
+        limit-refresh-period: 2000
+        limit-for-period: 5
