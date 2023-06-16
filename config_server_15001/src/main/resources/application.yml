@@ -1,0 +1,31 @@
+server:
+  port: 15001
+
+eureka:
+  client:
+    service-url:
+      defaultZone:
+          http://eurekaServer13000:13000/eureka,http://eurekaServer13001:13001/eureka
+  instance:
+    prefer-ip-address: true #使用ip地址注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri:  https://gitee.com/gao-lingzhi/springCloudConfig-test.git #git仓库地址
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
